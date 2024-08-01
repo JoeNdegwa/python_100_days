@@ -1,5 +1,6 @@
 """
-No error checking with v1, just simple shifting
+Added error checking for index out of range.
+2. Thinking of a better way to handle when the shift is a negative integer
 """
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
@@ -13,7 +14,11 @@ def encrypt(text, shift):
         if letter in alphabet:
             letter_index = alphabet.index(letter)
             new_letter_index = letter_index + shift
-            new_letter = alphabet[new_letter_index]
+            if new_letter_index > 25:
+                overlap = new_letter_index % 26
+                new_letter = alphabet[overlap]
+            else:
+                new_letter = alphabet[new_letter_index]
             new_word += new_letter
         else:
             print("...")
