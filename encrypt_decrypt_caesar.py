@@ -24,4 +24,18 @@ def encrypt(text, shift):
             print("...")
     print(new_word)
     
-encrypt(text=text, shift=shift)
+def decrypt(encrypted_text, shift_amount):
+  decrypted_text = ""
+  for letter in encrypted_text:
+    position = alphabet.index(letter)
+    new_position = position - shift_amount
+    decrypted_text += alphabet[new_position]
+  print(f"The decoded text is {decrypted_text}")
+ 
+if direction == "encode":
+    encrypt(plain_text=text, shift_amount=shift)
+elif direction == "decode":
+    decrypt(encrypted_text=text, shift_amount=shift) 
+else:
+    print("Wrong choice, please enter encode or decode")
+  
