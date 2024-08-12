@@ -1,40 +1,43 @@
 """
-Added the decode caesar cipher part
+Combine encrypt and decrypt ciphers & improve UX
 """
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+import art
 
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
+print(art.logo)
 
-def encrypt(plain_text, shift_amount):
-    new_word = ""
-    for letter in text:
-        if letter in alphabet:
-            letter_index = alphabet.index(letter)
-            new_letter_index = letter_index + shift
-            if new_letter_index > 25:
-                overlap = new_letter_index % 26
-                new_letter = alphabet[overlap]
-            else:
-                new_letter = alphabet[new_letter_index]
-            new_word += new_letter
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+            'v', 'w', 'x', 'y', 'z']
+
+
+def caesar(original_text, shift_amount, encode_or_decode):
+    output_text = ""
+    if encode_or_decode == "decode":
+        shift_amount *= -1
+
+    for letter in original_text:
+
+        if letter not in alphabet:
+            output_text += letter
         else:
-            print("...")
-    print(new_word)
-    
-def decrypt(encrypted_text, shift_amount):
-  decrypted_text = ""
-  for letter in encrypted_text:
-    position = alphabet.index(letter)
-    new_position = position - shift_amount
-    decrypted_text += alphabet[new_position]
-  print(f"The decoded text is {decrypted_text}")
- 
-if direction == "encode":
-    encrypt(plain_text=text, shift_amount=shift)
-elif direction == "decode":
-    decrypt(encrypted_text=text, shift_amount=shift) 
-else:
-    print("Wrong choice, please enter encode or decode")
-  
+            shifted_position = alphabet.index(letter) + shift_amount
+            shifted_position %= len(alphabet)
+            output_text += alphabet[shifted_position]
+    print(f"Here is the {encode_or_decode}d result: {output_text}")
+
+
+should_continue = True
+
+while should_continue:
+
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n"))
+
+    caesar(original_text=text, shift_amount=shift, encode_or_decode=direction)
+
+    restart = input("Type 'yes' if you want to go again. Otherwise, type 'no'.\n").lower()
+    if restart == "no":
+        should_continue = False
+        print("Goodbye")
+
+
